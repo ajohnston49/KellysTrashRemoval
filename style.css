@@ -236,7 +236,7 @@ nav a:hover {
     max-width: 1100px;
     overflow: hidden;
     position: relative;
-    height: 350px;
+    height: 400px;
     border-radius: 10px;
 }
 
@@ -247,7 +247,7 @@ nav a:hover {
 }
 
 .auto-gallery img {
-    height: 350px;
+    height: 400px;
     width: auto;
     object-fit: cover;
     border-radius: 6px;
@@ -283,12 +283,12 @@ nav a:hover {
 }
 
 /* MOBILE GALLERY */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .auto-gallery {
-        height: 220px;
+        height: 350px;
     }
     .auto-gallery img {
-        height: 220px;
+        height: 350px;
     }
 
     .gallery-arrow-box {
