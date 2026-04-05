@@ -83,14 +83,8 @@
     <h2>Gallery</h2>
     <p class="center">Real work. Real results.</p>
 
-    <div class="gallery-slider">
-        <button class="gallery-arrow left" id="galleryPrev">&#10094;</button>
-
-        <div class="gallery-track" id="galleryTrack">
-            <!-- Images injected by JS -->
-        </div>
-
-        <button class="gallery-arrow right" id="galleryNext">&#10095;</button>
+    <div class="auto-gallery">
+        <div class="auto-gallery-track" id="galleryTrack"></div>
     </div>
 
     <a href="tel:(765)417-2616" class="call-btn wide"> CALL NOW TO BOOK A CLEANUP</a>
@@ -133,76 +127,30 @@
 <!-- JS -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    /* GALLERY SLIDER */
+
+    /* FIXED AUTO-PANNING GALLERY */
     const track = document.getElementById("galleryTrack");
     const totalImages = 65;
 
-    // Load all 65 images
-    for (let i = 1; i <= totalImages; i++) {
+    // Load images twice for seamless loop
+    for (let i = 1; i <= totalImages * 2; i++) {
         const img = document.createElement("img");
-        img.src = `gallery/${String(i).padStart(2, '0')}.jpeg`;
-        img.alt = `Gallery Image ${i}`;
+        const num = ((i - 1) % totalImages) + 1;
+        img.src = `gallery/${String(num).padStart(2, '0')}.jpeg`;
+        img.alt = `Gallery Image ${num}`;
         track.appendChild(img);
     }
 
-    let index = 0;
-    const delay = 30000; // 30 seconds per slide
+    // After images load, calculate animation duration
+    setTimeout(() => {
+        const totalWidth = track.scrollWidth / 2; // width of 65 images
+        const speed = 40; // pixels per second
+        const duration = totalWidth / speed;
 
-    function updateSlide() {
-        track.style.transform = `translateX(-${index * 100}%)`;
-    }
+        track.style.animationDuration = `${duration}s`;
+    }, 500);
 
-    function nextSlide() {
-        index = (index + 1) % totalImages;
-        updateSlide();
-    }
-
-    function prevSlide() {
-        index = (index - 1 + totalImages) % totalImages;
-        updateSlide();
-    }
-
-    // Autoplay
-    let autoPlay = setInterval(nextSlide, delay);
-
-    function resetAutoplay() {
-        clearInterval(autoPlay);
-        autoPlay = setInterval(nextSlide, delay);
-    }
-
-    // Arrow controls
-    const nextBtn = document.getElementById("galleryNext");
-    const prevBtn = document.getElementById("galleryPrev");
-
-    nextBtn.addEventListener("click", () => {
-        nextSlide();
-        resetAutoplay();
-    });
-
-    prevBtn.addEventListener("click", () => {
-        prevSlide();
-        resetAutoplay();
-    });
-
-    // Swipe controls (mobile)
-    let startX = 0;
-
-    track.addEventListener("touchstart", e => {
-        startX = e.touches[0].clientX;
-    });
-
-    track.addEventListener("touchend", e => {
-        const endX = e.changedTouches[0].clientX;
-        const diff = startX - endX;
-
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) nextSlide();
-            else prevSlide();
-            resetAutoplay();
-        }
-    });
-
-    /* MOBILE NAV TOGGLE */
+    /* MOBILE NAV */
     const mobileToggle = document.getElementById("mobileNavToggle");
     const mainNav = document.getElementById("mainNav");
 
@@ -210,12 +158,12 @@ document.addEventListener("DOMContentLoaded", () => {
         mainNav.classList.toggle("open");
     });
 
-    // AUTO-CLOSE MOBILE NAV WHEN LINK IS CLICKED
     document.querySelectorAll("#mainNav a").forEach(link => {
         link.addEventListener("click", () => {
             mainNav.classList.remove("open");
         });
     });
+
 });
 </script>
 
