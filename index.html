@@ -25,7 +25,7 @@
 <header class="hero parallax">
     <div class="hero-overlay"></div>
     <img src="assets/K1.jpg" alt="Kelley's Logo" class="logo fade-soft">
-    <h1 class="hero-title">Kelley's Trash Removal An Hauling LLC</h1>
+    <h1 class="hero-title">Kelley's Trash Removal And Hauling LLC</h1>
     <p class="tagline">FREE QUOTES — FAST WORK</p>
     <a href="tel:(765)417-2616" class="call-btn"> CALL NOW: (765) 417-2616</a>
 </header>
@@ -127,24 +127,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const track = document.querySelector(".auto-gallery-track");
     const totalImages = 65;
 
-    for (let i = 1; i <= totalImages; i++) {
+    // Load gallery images twice for seamless loop
+    for (let i = 1; i <= totalImages * 2; i++) {
         const img = document.createElement("img");
-        img.src = `gallery/${String(i).padStart(2, '0')}.jpeg`;
-        img.alt = `Gallery Image ${i}`;
-        track.appendChild(img);
-    }
-
-    for (let i = 1; i <= totalImages; i++) {
-        const img = document.createElement("img");
-        img.src = `gallery/${String(i).padStart(2, '0')}.jpeg`;
-        img.alt = `Gallery Image ${i}`;
+        const num = ((i - 1) % totalImages) + 1;
+        img.src = `gallery/${String(num).padStart(2, '0')}.jpeg`;
+        img.alt = `Gallery Image ${num}`;
         track.appendChild(img);
     }
 });
 
-// MOBILE NAV
-document.getElementById("mobileNavToggle").addEventListener("click", () => {
-    document.getElementById("mainNav").classList.toggle("open");
+// MOBILE NAV TOGGLE
+const mobileToggle = document.getElementById("mobileNavToggle");
+const mainNav = document.getElementById("mainNav");
+
+mobileToggle.addEventListener("click", () => {
+    mainNav.classList.toggle("open");
+});
+
+// AUTO-CLOSE MOBILE NAV WHEN LINK IS CLICKED
+document.querySelectorAll("#mainNav a").forEach(link => {
+    link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+    });
 });
 </script>
 
