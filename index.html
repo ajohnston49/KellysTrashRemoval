@@ -33,7 +33,10 @@
 <!-- SERVICES -->
 <section id="services" class="section fade-soft">
     <h2>Our Services</h2>
-    <p class="center">Serving Connersville, Liberty, Brownsville, Dunlapsville, Abington, College Corner, Brookville, Rushville, Centerville, and all surrounding areas.</p>
+    <p class="center">
+        Serving Connersville, Liberty, Brownsville, Dunlapsville, Abington, College Corner, Brookville,
+        Rushville, Centerville, and all surrounding areas.
+    </p>
 
     <div class="services-grid">
         <div class="service-card">Junk Removal</div>
@@ -80,8 +83,14 @@
     <h2>Gallery</h2>
     <p class="center">Real work. Real results.</p>
 
-    <div class="auto-gallery">
-        <div class="auto-gallery-track"></div>
+    <div class="gallery-slider">
+        <button class="gallery-arrow left" id="galleryPrev">&#10094;</button>
+
+        <div class="gallery-track" id="galleryTrack">
+            <!-- Images injected by JS -->
+        </div>
+
+        <button class="gallery-arrow right" id="galleryNext">&#10095;</button>
     </div>
 
     <a href="tel:(765)417-2616" class="call-btn wide"> CALL NOW TO BOOK A CLEANUP</a>
@@ -124,31 +133,88 @@
 <!-- JS -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const track = document.querySelector(".auto-gallery-track");
+    /* GALLERY SLIDER */
+    const track = document.getElementById("galleryTrack");
     const totalImages = 65;
 
-    // Load gallery images twice for seamless loop
-    for (let i = 1; i <= totalImages * 2; i++) {
+    // Load all 65 images
+    for (let i = 1; i <= totalImages; i++) {
         const img = document.createElement("img");
-        const num = ((i - 1) % totalImages) + 1;
-        img.src = `gallery/${String(num).padStart(2, '0')}.jpeg`;
-        img.alt = `Gallery Image ${num}`;
+        img.src = `gallery/${String(i).padStart(2, '0')}.jpeg`;
+        img.alt = `Gallery Image ${i}`;
         track.appendChild(img);
     }
-});
 
-// MOBILE NAV TOGGLE
-const mobileToggle = document.getElementById("mobileNavToggle");
-const mainNav = document.getElementById("mainNav");
+    let index = 0;
+    const delay = 30000; // 30 seconds per slide
 
-mobileToggle.addEventListener("click", () => {
-    mainNav.classList.toggle("open");
-});
+    function updateSlide() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+    }
 
-// AUTO-CLOSE MOBILE NAV WHEN LINK IS CLICKED
-document.querySelectorAll("#mainNav a").forEach(link => {
-    link.addEventListener("click", () => {
-        mainNav.classList.remove("open");
+    function nextSlide() {
+        index = (index + 1) % totalImages;
+        updateSlide();
+    }
+
+    function prevSlide() {
+        index = (index - 1 + totalImages) % totalImages;
+        updateSlide();
+    }
+
+    // Autoplay
+    let autoPlay = setInterval(nextSlide, delay);
+
+    function resetAutoplay() {
+        clearInterval(autoPlay);
+        autoPlay = setInterval(nextSlide, delay);
+    }
+
+    // Arrow controls
+    const nextBtn = document.getElementById("galleryNext");
+    const prevBtn = document.getElementById("galleryPrev");
+
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        resetAutoplay();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        prevSlide();
+        resetAutoplay();
+    });
+
+    // Swipe controls (mobile)
+    let startX = 0;
+
+    track.addEventListener("touchstart", e => {
+        startX = e.touches[0].clientX;
+    });
+
+    track.addEventListener("touchend", e => {
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+            resetAutoplay();
+        }
+    });
+
+    /* MOBILE NAV TOGGLE */
+    const mobileToggle = document.getElementById("mobileNavToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    mobileToggle.addEventListener("click", () => {
+        mainNav.classList.toggle("open");
+    });
+
+    // AUTO-CLOSE MOBILE NAV WHEN LINK IS CLICKED
+    document.querySelectorAll("#mainNav a").forEach(link => {
+        link.addEventListener("click", () => {
+            mainNav.classList.remove("open");
+        });
     });
 });
 </script>
