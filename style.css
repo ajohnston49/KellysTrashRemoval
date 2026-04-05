@@ -222,7 +222,7 @@ nav a:hover {
     margin: 30px auto;
     overflow: hidden;
     position: relative;
-    height: 200px;
+    height: 300px;
     border-radius: 10px;
 }
 
@@ -235,7 +235,7 @@ nav a:hover {
 }
 
 .auto-gallery img {
-    height: 200px;
+    height: 300px;
     width: auto;
     object-fit: cover;
     border-radius: 6px;
