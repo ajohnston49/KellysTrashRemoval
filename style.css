@@ -215,29 +215,40 @@ nav a:hover {
     color: red;
 }
 
-/* AUTO SCROLL GALLERY */
+/* AUTO SCROLL GALLERY — FIXED FOR DESKTOP + MOBILE */
 .auto-gallery {
     width: 100%;
+    max-width: 1100px; /* keeps desktop clean */
+    margin: 30px auto;
     overflow: hidden;
     position: relative;
-    height: 260px;
+    height: 220px; /* desktop height */
     border-radius: 10px;
-    margin-top: 30px;
 }
 
 .auto-gallery-track {
     display: flex;
     gap: 10px;
-    animation: scrollGallery 40s linear infinite;
+    animation: scrollGallery 30s linear infinite;
 }
 
 .auto-gallery img {
-    height: 260px;
+    height: 220px;
     width: auto;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
     border: 2px solid red;
+}
+
+/* MOBILE: taller images */
+@media (max-width: 768px) {
+    .auto-gallery {
+        height: 260px;
+    }
+    .auto-gallery img {
+        height: 260px;
+    }
 }
 
 @keyframes scrollGallery {
