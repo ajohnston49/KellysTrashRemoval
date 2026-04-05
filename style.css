@@ -215,33 +215,35 @@ nav a:hover {
     color: red;
 }
 
-/* AUTO SCROLL GALLERY — FIXED FOR DESKTOP + MOBILE */
+/* AUTO SCROLL GALLERY — FIXED */
 .auto-gallery {
     width: 100%;
-    max-width: 1100px; /* keeps desktop clean */
+    max-width: 1100px;
     margin: 30px auto;
     overflow: hidden;
     position: relative;
-    height: 220px; /* desktop height */
+    height: 200px;
     border-radius: 10px;
 }
 
 .auto-gallery-track {
     display: flex;
-    gap: 10px;
+    flex-wrap: nowrap;       /* prevents vertical stacking */
+    white-space: nowrap;     /* forces horizontal flow */
+    gap: 8px;
     animation: scrollGallery 30s linear infinite;
 }
 
 .auto-gallery img {
-    height: 220px;
+    height: 200px;
     width: auto;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 6px;
     flex-shrink: 0;
     border: 2px solid red;
 }
 
-/* MOBILE: taller images */
+/* MOBILE */
 @media (max-width: 768px) {
     .auto-gallery {
         height: 260px;
