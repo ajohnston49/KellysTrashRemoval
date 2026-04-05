@@ -285,15 +285,17 @@ nav a:hover {
 /* MOBILE GALLERY */
 @media (max-width: 1000px) {
     .auto-gallery {
-        height: 350px;
+        height: 500px;
+        width: auto;
     }
     .auto-gallery img {
-        height: 350px;
+        height: 500px;
+        width: 100%;
     }
 
     .gallery-arrow-box {
-        width: 60px;
-        height: 60px;
+        width: 30px;
+        height: 90px;
     }
 
     .gallery-arrow-icon {
@@ -301,7 +303,7 @@ nav a:hover {
     }
 
     .gallery-row {
-        gap: 10px;
+        gap: 8px;
     }
 }
 
