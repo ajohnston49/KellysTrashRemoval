@@ -231,7 +231,7 @@ nav a:hover {
     flex-wrap: nowrap;       /* prevents vertical stacking */
     white-space: nowrap;     /* forces horizontal flow */
     gap: 8px;
-    animation: scrollGallery 30s linear infinite;
+    animation: scrollGallery 22s linear infinite;
 }
 
 .auto-gallery img {
