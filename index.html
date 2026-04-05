@@ -84,7 +84,11 @@
     <p class="center">Real work. Real results.</p>
 
     <div class="auto-gallery">
+        <button class="gallery-manual left" id="galleryLeft">&#10094;</button>
+
         <div class="auto-gallery-track" id="galleryTrack"></div>
+
+        <button class="gallery-manual right" id="galleryRight">&#10095;</button>
     </div>
 
     <a href="tel:(765)417-2616" class="call-btn wide"> CALL NOW TO BOOK A CLEANUP</a>
@@ -141,14 +145,37 @@ document.addEventListener("DOMContentLoaded", () => {
         track.appendChild(img);
     }
 
-    // After images load, calculate animation duration
+    // After images load, calculate animation duration (DOUBLE SPEED)
     setTimeout(() => {
         const totalWidth = track.scrollWidth / 2; // width of 65 images
-        const speed = 40; // pixels per second
+        const speed = 80; // pixels per second (was 40, now doubled)
         const duration = totalWidth / speed;
 
         track.style.animationDuration = `${duration}s`;
     }, 500);
+
+    /* MANUAL SCROLLING WITHOUT STOPPING AUTO-PAN */
+    const leftBtn = document.getElementById("galleryLeft");
+    const rightBtn = document.getElementById("galleryRight");
+
+    function manualScroll(direction) {
+        const firstImg = track.querySelector("img");
+        if (!firstImg) return;
+
+        const imgWidth = firstImg.clientWidth + 8; // + gap
+        const jump = imgWidth * 4;
+
+        track.style.transition = "transform 0.4s ease";
+        track.style.transform = `translateX(${direction === "left" ? jump : -jump}px)`;
+
+        setTimeout(() => {
+            track.style.transition = "";
+            track.style.transform = "";
+        }, 400);
+    }
+
+    leftBtn.addEventListener("click", () => manualScroll("left"));
+    rightBtn.addEventListener("click", () => manualScroll("right"));
 
     /* MOBILE NAV */
     const mobileToggle = document.getElementById("mobileNavToggle");
