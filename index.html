@@ -10,6 +10,19 @@
 
 <body>
 
+<!-- MOBILE NAV TOGGLE -->
+<div class="mobile-nav-toggle" id="mobileNavToggle">
+    ☰
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+    <a href="#services">Services</a>
+    <a href="#pricing">Dumpster Pricing</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+</nav>
+
 <!-- HERO -->
 <header class="hero parallax">
     <div class="hero-overlay"></div>
@@ -21,14 +34,6 @@
 
     <a href="tel:(765)417-2616" class="call-btn"> CALL NOW: (765) 417-2616</a>
 </header>
-
-<!-- NAV -->
-<nav>
-    <a href="#services">Services</a>
-    <a href="#pricing">Dumpster Pricing</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-</nav>
 
 <!-- SERVICES -->
 <section id="services" class="section fade-soft">
@@ -75,22 +80,17 @@
     </div>
 </section>
 
-
 <!-- GALLERY -->
 <section id="gallery" class="section fade-soft">
-    <h2>Before & After Gallery</h2>
+    <h2>Gallery</h2>
     <p class="center">Real work. Real results.</p>
 
-    <div class="gallery-grid">
-        <img src="assets/KC1.jpg" alt="Before cleanup">
-        <img src="assets/KC2.jpg" alt="After cleanup">
-        <img src="assets/KC3.jpg" alt="Before cleanup">
-        <img src="assets/KC4.jpg" alt="After cleanup">
+    <div class="auto-gallery">
+        <div class="auto-gallery-track"></div>
     </div>
 
     <a href="tel:(765)417-2616" class="call-btn wide"> CALL NOW TO BOOK A CLEANUP</a>
 </section>
-
 
 <!-- CONTACT -->
 <section id="contact" class="section dark fade-soft">
@@ -132,6 +132,36 @@
         </p>
     </div>
 </footer>
+
+<!-- JS: Auto Gallery + Mobile Nav -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.querySelector(".auto-gallery-track");
+    const totalImages = 65;
+
+    for (let i = 1; i <= totalImages; i++) {
+        const img = document.createElement("img");
+        img.src = `gallery/${String(i).padStart(2, '0')}.jpg`;
+        img.alt = `Gallery Image ${i}`;
+        track.appendChild(img);
+    }
+
+    for (let i = 1; i <= totalImages; i++) {
+        const img = document.createElement("img");
+        img.src = `gallery/${String(i).padStart(2, '0')}.jpg`;
+        img.alt = `Gallery Image ${i}`;
+        track.appendChild(img);
+    }
+});
+
+// MOBILE NAV
+const toggle = document.getElementById("mobileNavToggle");
+const nav = document.getElementById("mainNav");
+
+toggle.addEventListener("click", () => {
+    nav.classList.toggle("open");
+});
+</script>
 
 </body>
 </html>
