@@ -83,12 +83,18 @@
     <h2>Gallery</h2>
     <p class="center">Real work. Real results.</p>
 
-    <div class="auto-gallery">
-        <button class="gallery-manual left" id="galleryLeft">&#10094;</button>
+    <div class="gallery-row">
+        <button class="gallery-arrow-box left" id="galleryLeft">
+            <span class="gallery-arrow-icon">&#10094;</span>
+        </button>
 
-        <div class="auto-gallery-track" id="galleryTrack"></div>
+        <div class="auto-gallery">
+            <div class="auto-gallery-track" id="galleryTrack"></div>
+        </div>
 
-        <button class="gallery-manual right" id="galleryRight">&#10095;</button>
+        <button class="gallery-arrow-box right" id="galleryRight">
+            <span class="gallery-arrow-icon">&#10095;</span>
+        </button>
     </div>
 
     <a href="tel:(765)417-2616" class="call-btn wide"> CALL NOW TO BOOK A CLEANUP</a>
@@ -131,8 +137,7 @@
 <!-- JS -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* FIXED AUTO-PANNING GALLERY */
+    /* AUTO-PANNING GALLERY (JS-DRIVEN) */
     const track = document.getElementById("galleryTrack");
     const totalImages = 65;
 
@@ -145,16 +150,35 @@ document.addEventListener("DOMContentLoaded", () => {
         track.appendChild(img);
     }
 
-    // After images load, calculate animation duration (DOUBLE SPEED)
-    setTimeout(() => {
-        const totalWidth = track.scrollWidth / 2; // width of 65 images
-        const speed = 80; // pixels per second (was 40, now doubled)
-        const duration = totalWidth / speed;
+    let offset = 0;
+    let halfWidth = 0;
+    const speed = 80; // px per second (double previous 40)
 
-        track.style.animationDuration = `${duration}s`;
-    }, 500);
+    function initPan() {
+        halfWidth = track.scrollWidth / 2;
+        lastTime = performance.now();
+        requestAnimationFrame(step);
+    }
 
-    /* MANUAL SCROLLING WITHOUT STOPPING AUTO-PAN */
+    let lastTime = null;
+    function step(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
+        offset -= speed * dt;
+        if (offset <= -halfWidth) {
+            offset += halfWidth;
+        }
+
+        track.style.transform = `translateX(${offset}px)`;
+        requestAnimationFrame(step);
+    }
+
+    // Start pan after layout
+    setTimeout(initPan, 500);
+
+    /* MANUAL SCROLL ARROWS */
     const leftBtn = document.getElementById("galleryLeft");
     const rightBtn = document.getElementById("galleryRight");
 
@@ -165,13 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const imgWidth = firstImg.clientWidth + 8; // + gap
         const jump = imgWidth * 4;
 
-        track.style.transition = "transform 0.4s ease";
-        track.style.transform = `translateX(${direction === "left" ? jump : -jump}px)`;
-
-        setTimeout(() => {
-            track.style.transition = "";
-            track.style.transform = "";
-        }, 400);
+        offset += direction === "left" ? jump : -jump;
     }
 
     leftBtn.addEventListener("click", () => manualScroll("left"));
@@ -190,7 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mainNav.classList.remove("open");
         });
     });
-
 });
 </script>
 

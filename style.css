@@ -1,3 +1,4 @@
+
 /* GLOBAL */
 body {
     margin: 0;
@@ -219,11 +220,20 @@ nav a:hover {
     color: red;
 }
 
-/* FIXED AUTO SCROLL GALLERY */
+/* GALLERY LAYOUT */
+.gallery-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 30px auto 0;
+}
+
+/* AUTO GALLERY STRIP */
 .auto-gallery {
     width: 100%;
     max-width: 1100px;
-    margin: 30px auto;
     overflow: hidden;
     position: relative;
     height: 350px;
@@ -233,7 +243,7 @@ nav a:hover {
 .auto-gallery-track {
     display: flex;
     gap: 8px;
-    animation: scrollGallery linear infinite;
+    will-change: transform;
 }
 
 .auto-gallery img {
@@ -245,26 +255,34 @@ nav a:hover {
     border: 2px solid red;
 }
 
-/* MANUAL SCROLL ARROWS */
-.gallery-manual {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.55);
+/* ARROW BOXES (OUTSIDE GALLERY) */
+.gallery-arrow-box {
+    width: 70px;
+    height: 70px;
+    background: #444;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     border: none;
-    color: white;
-    font-size: 40px;
-    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    z-index: 20;
-    border-radius: 6px;
-    display: block;
+    flex-shrink: 0;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
 }
 
-.gallery-manual.left { left: 10px; }
-.gallery-manual.right { right: 10px; }
+.gallery-arrow-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.8);
+    background: #555;
+}
 
-/* MOBILE */
+.gallery-arrow-icon {
+    font-size: 38px;
+    color: #ddd;
+}
+
+/* MOBILE GALLERY */
 @media (max-width: 768px) {
     .auto-gallery {
         height: 220px;
@@ -273,16 +291,18 @@ nav a:hover {
         height: 220px;
     }
 
-    .gallery-manual {
-        font-size: 30px;
-        padding: 6px 10px;
+    .gallery-arrow-box {
+        width: 60px;
+        height: 60px;
     }
-}
 
-/* KEYFRAMES (duration set dynamically) */
-@keyframes scrollGallery {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    .gallery-arrow-icon {
+        font-size: 32px;
+    }
+
+    .gallery-row {
+        gap: 10px;
+    }
 }
 
 /* CONTACT */
@@ -361,4 +381,3 @@ footer {
 .fade-soft {
     animation: fadeSoft 1s forwards;
 }
-
